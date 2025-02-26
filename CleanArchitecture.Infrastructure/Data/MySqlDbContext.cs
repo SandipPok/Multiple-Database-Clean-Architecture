@@ -1,18 +1,15 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace CleanArchitecture.Infrastructure.Data
 {
-    public class DbContext
+    public class MySqlDbContext
     {
         private readonly string _connectionString;
-
-        public DbContext(string connectionString)
+        public MySqlDbContext(string connectionString)
         {
             _connectionString = connectionString;
         }
-
         public IDbConnection CreateConnection()
         {
             return new SqlConnection(_connectionString);

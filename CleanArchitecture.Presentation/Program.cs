@@ -4,9 +4,14 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var mySqlConnectionString = builder.Configuration.GetConnectionString("MySqlConnection");
 
-builder.Services.AddScoped<DbContext>();
+builder.Services.AddScoped<DbContext>(provider => 
+    new DbContext(defaultConnectionString ?? ""));
+
+builder.Services.AddScoped<MySqlDbContext>(provider =>
+    new MySqlDbContext(mySqlConnectionString ?? ""));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
