@@ -2,9 +2,6 @@
 using CleanArchitecture.Infrastructure.Data;
 using Dapper;
 using Domain_Layer.Modal;
-using Microsoft.Data.SqlClient;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CleanArchitecture.Infrastructure.Repository
 {

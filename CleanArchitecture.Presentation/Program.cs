@@ -1,4 +1,6 @@
+using CleanArchitecture.Application.Interface;
 using CleanArchitecture.Infrastructure.Data;
+using CleanArchitecture.Infrastructure.Repository;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,10 @@ builder.Services.AddScoped<DbContext>(provider =>
 
 builder.Services.AddScoped<MySqlDbContext>(provider =>
     new MySqlDbContext(mySqlConnectionString ?? ""));
+
+builder.Services.AddTransient<IItemRepository, ItemRepository>();
+builder.Services.AddTransient<IItemDetailsRepository, ItemDetailsRepository>();
+builder.Services.AddTransient<IItemDetailsBackupRepository, ItemDetailsBackupRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
