@@ -201,8 +201,9 @@ namespace CleanArchitecture.Infrastructure.Repository
                         foreach (var detail in itemDetails)
                         {
                             detail.ItemId = item.ItemId;
-                            connection.Execute(insertDetailsQuery, detail, transaction);
                         }
+
+                        await connection.ExecuteAsync(insertDetailsQuery, itemDetails, transaction);
 
                         transaction.Commit();
                     }
