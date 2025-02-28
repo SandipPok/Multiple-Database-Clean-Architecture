@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Interface;
+using CleanArchitecture.Application.Mapper;
 using Domain_Layer.Modal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,23 +17,18 @@ namespace CleanArchitecture.Presentation.Controllers
             _itemDetailsRepository = itemDetailsRepository;
         }
 
-        // POST: api/item/details
-        [HttpPost("details")]
-        public async Task<IActionResult> CreateItemDetailAsync([FromBody] ItemDetail itemDetail)
+        // GET: api/item/details
+        [HttpGet("getAll")]
+        public async Task<IActionResult> GetDetailsByItemIdAsync()
         {
             try
             {
-                if (itemDetail == null)
+                var details = await _itemDetailsRepository.GetAllDetailsAsync();
+                if (details != null && details.Any())
                 {
-                    return BadRequest("Item detail cannot be null.");
+                    return Ok(details);
                 }
-
-                var result = await _itemDetailsRepository.CreateItemDetailAsync(itemDetail);
-                if (result > 0)
-                {
-                    return Ok(new { message = "Item detail created successfully." });
-                }
-                return BadRequest("Failed to create item detail.");
+                return NotFound($"No details found.");
             }
             catch (Exception)
             {

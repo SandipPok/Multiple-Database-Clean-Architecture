@@ -9,8 +9,7 @@ namespace CleanArchitecture.Application.Interface
 {
     public interface IItemDetailsRepository
     {
+        Task<IEnumerable<ItemDetail>> GetAllDetailsAsync();
         Task<IEnumerable<ItemDetail>> GetDetailsByItemIdAsync(int itemId);
-        Task<int> CreateItemDetailAsync(ItemDetail itemDetail);
-        //Task<int> DeleteItemDetailAsync(int detailId);
     }
 }

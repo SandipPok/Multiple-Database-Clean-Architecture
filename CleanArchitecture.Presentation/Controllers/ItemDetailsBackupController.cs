@@ -16,7 +16,7 @@ namespace CleanArchitecture.Presentation.Controllers
         }
 
         // POST: api/item/details/backup/{detailId}
-        [HttpPost("details/backup/{detailId}")]
+        [HttpDelete("details/backup/{detailId}")]
         public async Task<IActionResult> BackupItemDetailAsync(int detailId)
         {
             try

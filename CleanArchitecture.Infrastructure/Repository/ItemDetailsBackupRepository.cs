@@ -27,7 +27,11 @@ namespace CleanArchitecture.Infrastructure.Repository
                 {
                     try
                     {
-                        var getItemDetailQuery = "SELECT * FROM ItemDetails WHERE detail_id = @DetailId";
+                        var getItemDetailQuery = @"SELECT 
+                                                    detail_id AS DetailId,
+                                                    item_id AS ItemId,
+                                                    detail_description AS DetailDescription
+                                                FROM ItemDetails WHERE detail_id = @DetailId";
                         var itemDetail = await sqlServerConnection.QuerySingleOrDefaultAsync<ItemDetail>(getItemDetailQuery, new { DetailId = detailId }, sqlServerTransaction);
 
                         if (itemDetail == null)
@@ -67,7 +71,11 @@ namespace CleanArchitecture.Infrastructure.Repository
             {
                 using (var connection = _dbContext.CreateConnection())
                 {
-                    var query = "SELECT * FROM ItemDetailsBackup";
+                    var query = @"SELECT 
+                                    detail_id AS DetailId,
+                                    item_id AS ItemId,
+                                    detail_description AS DetailDescription
+                                FROM ItemDetailsBackup";
                     return await connection.QueryAsync<ItemDetail>(query);
                 }
             }
