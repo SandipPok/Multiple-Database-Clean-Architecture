@@ -18,14 +18,20 @@ namespace CleanArchitecture.WebAPI.Controllers
 
         // POST: api/item
         [HttpPost("insert")]
-        public async Task<IActionResult> CreateItemAsync([FromBody] Item item)
+        public async Task<IActionResult> CreateItemAsync([FromBody] ItemDto dto)
         {
             try
             {
-                if (item == null)
+                if (dto == null)
                 {
                     return BadRequest("Item cannot be null.");
                 }
+
+                Item item = new Item
+                {
+                    ItemDescription = dto.ItemDescription,
+                    ItemName = dto.ItemName
+                };
 
                 var result = await _itemRepository.CreateItemAsync(item);
                 if (result > 0)
@@ -81,14 +87,20 @@ namespace CleanArchitecture.WebAPI.Controllers
 
         // PUT: api/item/{id}
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateItemAsync(int id, [FromBody] Item item)
+        public async Task<IActionResult> UpdateItemAsync(int id, [FromBody] ItemDto items)
         {
             try
             {
-                if (item == null || item.ItemId != id)
+                if (items == null)
                 {
                     return BadRequest("Invalid item data.");
                 }
+
+                Item item = new Item
+                {
+                    ItemName = items.ItemName,
+                    ItemDescription = items.ItemDescription
+                };
 
                 var result = await _itemRepository.UpdateItemAsync(item);
                 if (result > 0)
