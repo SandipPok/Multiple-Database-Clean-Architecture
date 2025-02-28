@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace CleanArchitecture.Infrastructure.Data
@@ -12,7 +12,9 @@ namespace CleanArchitecture.Infrastructure.Data
         }
         public IDbConnection CreateConnection()
         {
-            return new SqlConnection(_connectionString);
+            var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+            return conn;
         }
     }
 }
