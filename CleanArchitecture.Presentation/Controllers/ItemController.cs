@@ -135,7 +135,7 @@ namespace CleanArchitecture.WebAPI.Controllers
             }
         }
 
-        // POST api/items/create
+        // POST api/items/insert/parent/child
         [HttpPost("insert/parent/child")]
         public async Task<IActionResult> CreateItemWithDetails([FromBody] ItemWithDetailsDto itemWithDetails)
         {
@@ -144,10 +144,28 @@ namespace CleanArchitecture.WebAPI.Controllers
                 return BadRequest("Invalid data provided.");
             }
 
+            Item item = new Item
+            {
+                ItemName = itemWithDetails.Item.ItemName,
+                ItemDescription = itemWithDetails.Item.ItemDescription
+            };
+
+            List<ItemDetail> itemDto = new List<ItemDetail>();
+
+            foreach (var ite in itemWithDetails.ItemDetails)
+            {
+                ItemDetail i = new ItemDetail
+                {
+                    DetailDescription = ite.DetailDescription,
+                };
+
+                itemDto.Add(i);
+            }
+
             try
             {
                 // Calling the service method to handle the insert logic
-                await _itemRepository.CreateItemWithDetails(itemWithDetails.Item, itemWithDetails.ItemDetails);
+                await _itemRepository.CreateItemWithDetails(item, itemDto);
 
                 // Return a success response
                 return Ok("Item and details successfully created.");

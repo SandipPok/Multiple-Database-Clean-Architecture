@@ -4,7 +4,7 @@ namespace CleanArchitecture.Application.Mapper
 {
     public sealed class ItemWithDetailsDto
     {
-        public Item Item { get; set; }
-        public List<ItemDetail> ItemDetails { get; set; }
+        public ItemDto Item { get; set; }
+        public List<ItemDetailDto> ItemDetails { get; set; }
     }
 }
