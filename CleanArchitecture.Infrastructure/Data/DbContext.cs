@@ -15,7 +15,9 @@ namespace CleanArchitecture.Infrastructure.Data
 
         public IDbConnection CreateConnection()
         {
-            return new SqlConnection(_connectionString);
+            var conn = new SqlConnection(_connectionString);
+            conn.Open();
+            return conn;
         }
     }
 }

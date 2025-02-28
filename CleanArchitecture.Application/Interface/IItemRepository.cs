@@ -14,5 +14,6 @@ namespace CleanArchitecture.Application.Interface
         Task<Item> GetItemByIdAsync(int itemId);
         Task<int> UpdateItemAsync(Item item);
         Task<int> DeleteItemAsync(int itemId);
+        Task CreateItemWithDetails(Item item, List<ItemDetail> itemDetails);
     }
 }

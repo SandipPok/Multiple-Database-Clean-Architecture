@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Interface;
+using CleanArchitecture.Application.Mapper;
 using Domain_Layer.Modal;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace CleanArchitecture.WebAPI.Controllers
         }
 
         // POST: api/item
-        [HttpPost]
+        [HttpPost("insert")]
         public async Task<IActionResult> CreateItemAsync([FromBody] Item item)
         {
             try
@@ -39,8 +40,8 @@ namespace CleanArchitecture.WebAPI.Controllers
             }
         }
 
-        // GET: api/item
-        [HttpGet]
+        // GET: api/get-all
+        [HttpGet("get-all")]
         public async Task<IActionResult> GetAllItemsAsync()
         {
             try
@@ -58,8 +59,8 @@ namespace CleanArchitecture.WebAPI.Controllers
             }
         }
 
-        // GET: api/item/{id}
-        [HttpGet("{id}")]
+        // GET: api/getById/{id}
+        [HttpGet("getById/{id}")]
         public async Task<IActionResult> GetItemByIdAsync(int id)
         {
             try
@@ -79,7 +80,7 @@ namespace CleanArchitecture.WebAPI.Controllers
         }
 
         // PUT: api/item/{id}
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateItemAsync(int id, [FromBody] Item item)
         {
             try
@@ -103,7 +104,7 @@ namespace CleanArchitecture.WebAPI.Controllers
         }
 
         // DELETE: api/item/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteItemAsync(int id)
         {
             try
@@ -119,6 +120,30 @@ namespace CleanArchitecture.WebAPI.Controllers
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        // POST api/items/create
+        [HttpPost("insert/parent/child")]
+        public async Task<IActionResult> CreateItemWithDetails([FromBody] ItemWithDetailsDto itemWithDetails)
+        {
+            if (itemWithDetails == null || itemWithDetails.Item == null || itemWithDetails.ItemDetails == null || !itemWithDetails.ItemDetails.Any())
+            {
+                return BadRequest("Invalid data provided.");
+            }
+
+            try
+            {
+                // Calling the service method to handle the insert logic
+                await _itemRepository.CreateItemWithDetails(itemWithDetails.Item, itemWithDetails.ItemDetails);
+
+                // Return a success response
+                return Ok("Item and details successfully created.");
+            }
+            catch (Exception ex)
+            {
+                // Handle unexpected errors and return a 500 Internal Server Error
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
     }
